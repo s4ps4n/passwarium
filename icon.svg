@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="96" fill="#0f766e"/>
+  <!-- банка-аквариум -->
+  <rect x="106" y="116" width="300" height="280" rx="42" fill="none" stroke="#fff" stroke-width="26"/>
+  <!-- вода -->
+  <path d="M136 192 q 20 -14 40 0 t 40 0 t 40 0 t 40 0 t 40 0 t 40 0" fill="none" stroke="#99f6e4" stroke-width="14" stroke-linecap="round"/>
+  <!-- ключ внутри -->
+  <g fill="none" stroke="#fff" stroke-width="26" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="208" cy="238" r="40"/>
+    <path d="M236 266 L332 362"/>
+    <path d="M306 336 L328 314"/>
+    <path d="M330 360 L352 338"/>
+  </g>
+  <!-- пузырьки -->
+  <circle cx="152" cy="312" r="13" fill="#99f6e4"/>
+  <circle cx="170" cy="262" r="9" fill="#99f6e4"/>
+  <circle cx="156" cy="222" r="6" fill="#99f6e4"/>
+</svg>
