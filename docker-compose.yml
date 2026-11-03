@@ -1,0 +1,35 @@
+# Passwarium: Caddy (автоматический HTTPS) + сервер сейфов.
+#   1. Пропишите домен в Caddyfile (passwarium.example.com → ваш домен).
+#   2. Задайте токен создания сейфов:  export PW_CREATE_TOKEN=$(openssl rand -hex 16)
+#   3. docker compose up -d
+# Данные — в именованном томе vault-data. Бэкап: скопировать том
+# (docker run --rm -v passwarium_vault-data:/data -v $PWD:/b alpine tar czf /b/backup.tgz data)
+services:
+  app:
+    image: python:3.13-alpine
+    working_dir: /app
+    volumes:
+      - ./:/app:ro
+      - vault-data:/data
+    environment:
+      PASSWARIUM_DATA: /data
+      PW_CREATE_TOKEN: ${PW_CREATE_TOKEN:?задайте PW_CREATE_TOKEN}
+      PW_TRUSTED_PROXIES: 127.0.0.1,172.16.0.0/12
+    command: python3 server.py --port 8800 --bind 0.0.0.0
+    restart: unless-stopped
+
+  caddy:
+    image: caddy:2-alpine
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy-data:/data
+    restart: unless-stopped
+    depends_on:
+      - app
+
+volumes:
+  vault-data:
+  caddy-data:

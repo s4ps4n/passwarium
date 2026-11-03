@@ -1,50 +1,32 @@
-# Security policy
+# Политика безопасности
 
-Passwarium stores password vaults, so reports about its cryptography and server
-behavior are taken seriously.
+## Куда сообщать об уязвимостях
 
-## Reporting a vulnerability
+Заведите приватное сообщение об уязвимости (GitHub Security Advisories) в репозитории проекта. Не публикуйте детали публично до выхода исправления.
 
-Please **do not open a public issue** for a security problem. Send a private
-report through GitHub Security Advisories ("Security" → "Report a
-vulnerability") for this repository. Include:
+**Срок ответа:** подтверждение — 72 часа, оценка и план исправления — 14 дней.
 
-- what you tested and the exact steps to reproduce;
-- expected and actual behavior;
-- affected files and version (commit hash);
-- any proof-of-concept code, kept minimal.
+## Что в зоне интересов
 
-You will get an acknowledgement within a few days. Fixes are prepared in a
-private branch, released with a note in the changelog, and credited unless you
-prefer to stay anonymous.
+- обход аутентификации по Bearer-токену или ключу записи;
+- чтение или изменение чужого сейфа без мастер-пароля;
+- ошибки криптографии (KDF, AES-GCM, AAD, генерация случайности);
+- XSS и инъекции в клиенте;
+- обход rate-limit и троттлинга.
 
-## Scope
+## Что заведомо вне модели угроз
 
-In scope:
+- скомпрометированное устройство пользователя;
+- слабый мастер-пароль;
+- владелец сервера, подменяющий код страницы (см. README → «Модель угроз»);
+- отказ в обслуживании самописного сервера на одном файле.
 
-- the client-side crypto (`index.html`): PBKDF2 parameters, AES-256-CBC mode of
-  operation, HMAC coverage, key derivation and use;
-- the vault key scheme (`X-Vault-Key`, stored hash) and write authorization;
-- the server (`server.py`): path traversal, request handling, rate limiting,
-  response headers, denial of service with malformed input;
-- anything that lets an attacker without the master password or vault key read,
-  overwrite, or destroy a vault.
+---
 
-Out of scope:
+## Security policy (English summary)
 
-- a compromised device, browser, browser extension or keylogger;
-- weak master passwords chosen by the user (the strength meter is guidance, not
-  a guarantee);
-- the absence of two-factor authentication by design;
-- traffic analysis of an HTTP (non-TLS) deployment — use HTTPS;
-- self-XSS requiring the victim to paste attacker-supplied JavaScript into the
-  developer console.
+Report vulnerabilities privately through GitHub Security Advisories — do not open a public issue before a fix ships. Acknowledgement within 72 hours, assessment and fix plan within 14 days.
 
-## Known design limits
+**In scope:** bypassing Bearer-token or vault-key authentication; reading or modifying someone else's vault without the master password; crypto mistakes (KDF, AES-GCM, AAD, randomness); XSS and injection in the client; rate-limit and throttling bypass.
 
-- There is no password recovery. Losing the master password means losing the
-  vault; this is intentional.
-- Anyone holding the vault link can attempt an offline brute-force. Security of
-  the vault reduces to the strength of the master password.
-- `localStorage` keeps a copy of the ciphertext for offline use, so a device
-  compromise exposes ciphertext (not plaintext).
+**Out of scope:** a compromised user device; a weak master password; a server owner who swaps the served page code (see the README threat model); denial of service against a single-file self-hosted server.

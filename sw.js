@@ -1,7 +1,11 @@
 // Passwarium — service worker: приложение открывается и без сети.
 // Стратегия: сеть сначала, при неудаче — кэш (свежая версия подтягивается при наличии связи).
-const CACHE = 'passwarium-v2';
-const ASSETS = ['./', './index.html', './manifest.webmanifest', './icon.svg'];
+const CACHE = 'passwarium-v3';
+const ASSETS = [
+  './', './index.html', './app.css', './app.js', './qr.js', './hash-wasm.js',
+  './crypto-legacy.js', './manifest.webmanifest', './icon.svg',
+  './fonts/inter-latin.woff2', './fonts/inter-cyrillic.woff2',
+];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)).then(() => self.skipWaiting()));

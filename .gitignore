@@ -1,5 +1,5 @@
 data/
-*.log
-__pycache__/
-.DS_Store
 *.zip
+__pycache__/
+node_modules/
+.DS_Store

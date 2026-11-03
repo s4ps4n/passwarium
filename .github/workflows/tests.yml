@@ -11,6 +11,8 @@ permissions:
 jobs:
   test:
     runs-on: ubuntu-latest
+    # клиентские тесты гоняют настоящий Argon2id — около пяти минут
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
 

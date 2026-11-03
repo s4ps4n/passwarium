@@ -1,0 +1,4 @@
+# Замените на свой домен — Caddy сам выпустит и продлит сертификат.
+passwarium.example.com
+
+reverse_proxy app:8800

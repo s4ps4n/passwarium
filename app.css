@@ -1,0 +1,296 @@
+/* Inter — локально, переменный вес 100-900 (OFL, см. fonts/OFL.txt) */
+@font-face{
+  font-family:'Inter';font-style:normal;font-weight:100 900;font-display:swap;
+  src:url('fonts/inter-cyrillic.woff2') format('woff2');
+  unicode-range:U+0301,U+0400-045F,U+0490-0491,U+04B0-04B1,U+2116;
+}
+@font-face{
+  font-family:'Inter';font-style:normal;font-weight:100 900;font-display:swap;
+  src:url('fonts/inter-latin.woff2') format('woff2');
+  unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,
+    U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;
+}
+
+/* утилиты вместо инлайн-стилей (CSP без unsafe-inline) */
+.m0{margin:0}
+.m0b4{margin:0 0 4px}
+.m0b6{margin:0 0 6px}
+.tn{font-variant-numeric:tabular-nums}
+
+/* смена темы ОС: класс вместо инъекции <style> (CSP) */
+html.no-transitions *,html.no-transitions *::before,html.no-transitions *::after{transition:none!important}
+
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+:root{
+  --bg:#f1f5f9; --fg:#0f172a; --card:#ffffff; --border:#e2e8f0; --muted:#64748b;
+  --accent:#0f766e; --accent-hover:#0d9488; --accent-fg:#ffffff;
+  --danger:#dc2626; --ok:#059669; --warn:#d97706; --ring:#1e3a5f;
+  /* тени для поднятых слоёв: кольцо + подъём + рассеянная глубина (better-ui) */
+  --shadow-sheet:
+    0px 0px 0px 1px oklch(0 0 0 / 0.06),
+    0px -2px 4px 0px oklch(0 0 0 / 0.04),
+    0px -12px 32px -4px oklch(0 0 0 / 0.12);
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --bg:#0d1b1d; --fg:#f1f5f9; --card:#182629; --border:rgba(255,255,255,.08); --muted:#94a3b8;
+    --accent:#2dd4bf; --accent-hover:#5eead4; --accent-fg:#042f2e;
+    --danger:#f87171; --ok:#34d399; --warn:#fbbf24; --ring:#e2e8f0;
+    /* в тёмной теме глубина не видна — остаётся одно светлое кольцо */
+    --shadow-sheet: 0 0 0 1px oklch(1 0 0 / 0.08);
+  }
+}
+html{font-family:'Inter',system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",sans-serif}
+html,body{margin:0;padding:0}
+body{
+  background:var(--bg); color:var(--fg);
+  font:16px/1.45 'Inter',system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",sans-serif;
+  -webkit-tap-highlight-color:transparent;
+  overscroll-behavior-y:contain;
+}
+button{font-family:inherit}
+button{cursor:pointer;-webkit-tap-highlight-color:transparent}
+:focus-visible{outline:2px solid var(--ring);outline-offset:2px}
+code{font-family:ui-monospace,Consolas,monospace}
+.icon{width:22px;height:22px;flex:none;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+
+/* плавные переходы на интерактиве: 150ms, только меняющиеся свойства */
+button,.card,.vcard,.pcard,.field,.sel{
+  transition:background-color .15s ease,border-color .15s ease,color .15s ease,box-shadow .15s ease,scale .15s ease-out;
+}
+/* нажатие: scale 0.96, никогда для disabled (better-ui) */
+.btn-big:not(:disabled):active,.act:not(:disabled):active,
+.iconbtn:not(:disabled):active,.eye:not(:disabled):active,
+#btn-generate-m:not(:disabled):active,.tab-btn:not(:disabled):active{
+  scale:.96;
+}
+@media (hover:hover){
+  .btn-big.primary:hover,#btn-generate-m:hover,.act.primary:hover{
+    background:var(--accent-hover);border-color:var(--accent-hover);
+  }
+  .act.danger:hover{border-color:var(--danger)}
+  .act.danger.confirm:hover{background:var(--danger);border-color:var(--danger)}
+  .pcard:hover,.vcard:hover{border-color:var(--muted)}
+  .iconbtn:hover,.tab-btn:not(.active):hover,.btn-big:not(.primary):hover,.act:not(.primary):not(.danger):hover{border-color:var(--muted)}
+  .linklike:hover{text-decoration:underline}
+}
+@media (prefers-reduced-motion: no-preference){
+  html{scroll-behavior:smooth}
+}
+
+/* ---------- общие компоненты ---------- */
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px}
+.field{
+  min-height:50px;width:100%;border-radius:12px;border:1px solid var(--border);
+  background:var(--bg);color:var(--fg);font-size:17px;padding:0 14px;
+}
+.field:focus{outline:2px solid var(--accent);outline-offset:-1px;border-color:var(--accent)}
+.btn-big{
+  min-height:52px;border-radius:14px;border:1px solid var(--border);
+  background:var(--card);color:var(--fg);font-size:17px;font-weight:600;padding:0 20px;
+}
+.btn-big.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-fg)}
+.btn-big:disabled{opacity:.6;cursor:default}
+.act{
+  min-height:48px;border-radius:12px;border:1px solid var(--border);
+  background:var(--card);color:var(--fg);font-size:15.5px;font-weight:600;padding:0 12px;
+}
+.act.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-fg)}
+.act.danger{color:var(--danger);border-color:var(--border)}
+.act.danger.confirm{background:var(--danger);border-color:var(--danger);color:#fff}
+.linklike{
+  background:none;border:none;color:var(--accent);font-size:15px;cursor:pointer;
+  min-height:44px;padding:0 8px;
+}
+.linklike:active{opacity:.7}
+.muted{color:var(--muted)}
+.small{font-size:13px}
+.err{color:var(--danger);font-size:14.5px;margin:0}
+.empty{color:var(--muted);text-align:center;padding:28px 12px;font-size:15px}
+.pw{
+  font-family:ui-monospace,"Cascadia Mono","SF Mono",Consolas,monospace;
+  font-size:21px;font-weight:500;letter-spacing:.4px;word-break:break-all;
+}
+.pw-echo{
+  font-family:ui-monospace,Consolas,monospace;font-size:17px;
+  background:var(--bg);border-radius:10px;padding:10px 12px;word-break:break-all;
+}
+
+/* ---------- экран блокировки ---------- */
+#screen-lock{min-height:100svh;display:flex;align-items:center;justify-content:center;padding:20px}
+.lockbox{width:100%;max-width:420px;display:grid;gap:12px;text-align:center;padding:26px 22px}
+.logo{font-size:42px;line-height:1;color:var(--accent);display:flex;justify-content:center}
+.logo .icon{width:44px;height:44px;stroke-width:1.8}
+.lockbox h1{font-size:22px;margin:0}
+.lockbox form{display:grid;gap:12px}
+#btn-toggle-create{justify-self:center}
+
+/* индикатор стойкости мастер-пароля */
+.strength{height:6px;border-radius:3px;background:var(--border);overflow:hidden}
+.strength i{display:block;height:100%;width:0;border-radius:3px;transition:width .2s ease,background-color .2s ease}
+.strength-label{font-size:13px;color:var(--muted);text-align:left;margin:-6px 0 0}
+
+/* ---------- основное ---------- */
+#screen-main{max-width:720px;margin:0 auto;padding:0 16px calc(104px + env(safe-area-inset-bottom))}
+header{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:14px 0 6px}
+.brand{font-weight:600;font-size:18px;white-space:nowrap;display:inline-flex;align-items:center;gap:8px}
+.head-right{display:flex;align-items:center;gap:10px}
+.sync{display:inline-flex;align-items:center;gap:6px;font-size:13px;color:var(--muted);white-space:nowrap}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--muted);flex:none}
+.dot.ok{background:var(--ok)}
+.dot.busy{background:var(--warn)}
+.dot.off{background:var(--danger)}
+.iconbtn{
+  min-width:44px;min-height:44px;border-radius:12px;border:1px solid var(--border);
+  background:var(--card);color:var(--fg);font-size:19px;display:inline-flex;align-items:center;justify-content:center;
+}
+.tabs{display:none;gap:8px;margin:10px 0 14px}
+.tab-btn{
+  padding:0 18px;min-height:44px;border-radius:999px;border:1px solid var(--border);
+  background:var(--card);color:var(--fg);font-size:15px;font-weight:500;
+}
+.tab-btn.active{background:var(--accent);border-color:var(--accent);color:var(--accent-fg)}
+main section{margin:0}
+#btn-generate{display:none;margin-left:auto}
+
+#tab-gen{display:flex;flex-direction:column;gap:12px}
+#results-wrap{order:1}
+#results-empty{margin:0}
+.pwcopy{display:block;width:100%;text-align:left;background:none;border:none;padding:0;cursor:pointer;color:var(--fg)}
+.pwcopy:active{opacity:.7}
+
+/* генератор: настройки компактно */
+.controls{order:2;display:grid;gap:10px;padding:12px 14px}
+.ctrl{display:flex;align-items:center;gap:10px;min-height:44px}
+.ctrl-label{font-size:14px;color:var(--muted);flex:none;min-width:72px}
+.ctrl-len input[type=range]{flex:1;min-width:0;height:44px;accent-color:var(--accent);margin:0}
+#len-val{font-weight:600;font-size:16px;min-width:30px;text-align:right;font-variant-numeric:tabular-nums;color:var(--fg)}
+.stepper{display:flex;align-items:stretch;border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.stepper button{width:48px;min-height:42px;font-size:22px;background:transparent;border:none;color:var(--fg)}
+.stepper button:active{background:var(--bg)}
+.stepper output{width:44px;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:600;font-variant-numeric:tabular-nums}
+#results{display:grid}
+.pcard{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:13px 14px;margin-bottom:12px}
+.meta{font-size:12.5px;color:var(--muted);margin-top:3px;font-variant-numeric:tabular-nums}
+.prow{display:flex;gap:8px;margin-top:10px}
+.prow .act{flex:1}
+
+/* сейф */
+#search{margin-bottom:10px}
+.vault-meta{display:flex;justify-content:space-between;align-items:center;font-size:14.5px;color:var(--muted);margin:2px 0 12px}
+.vcard{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:12px 14px;margin-bottom:12px}
+.vtop{display:flex;justify-content:space-between;align-items:baseline;gap:10px;margin-bottom:5px}
+.vlabel{font-weight:600;font-size:16.5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.vdate{font-size:12.5px;color:var(--muted);flex:none;font-variant-numeric:tabular-nums}
+.vsub{font-size:13.5px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap;margin-bottom:4px}
+.vpw{display:flex;align-items:center;gap:6px}
+.vpw .pwcopy{flex:1;min-width:0}
+.eye{
+  flex:none;min-width:40px;min-height:40px;border-radius:10px;border:1px solid var(--border);
+  background:var(--bg);color:var(--muted);display:inline-flex;align-items:center;justify-content:center;
+  position:relative;
+}
+.eye .icon{width:18px;height:18px}
+/* контекстная смена иконки: обе в DOM, cross-fade 300ms (better-ui) */
+.eye .ic{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  transition:opacity .3s cubic-bezier(.2,0,0,1)}
+.eye .ic-off{opacity:0}
+.eye.shown .ic-open{opacity:0}
+.eye.shown .ic-off{opacity:1}
+@media (prefers-reduced-motion: no-preference){
+  .eye .ic{transition:opacity .3s cubic-bezier(.2,0,0,1),scale .3s cubic-bezier(.2,0,0,1),filter .3s cubic-bezier(.2,0,0,1)}
+  .eye .ic-off{scale:.25;filter:blur(4px)}
+  .eye.shown .ic-open{scale:.25;filter:blur(4px)}
+  .eye.shown .ic-off{scale:1;filter:blur(0px)}
+}
+.settings{margin-top:18px;display:grid;gap:4px}
+.setrow{display:flex;justify-content:space-between;align-items:center;gap:10px;min-height:44px}
+.setrow label,.setrow .setlabel{font-size:15px}
+.sel{min-height:44px;border-radius:10px;border:1px solid var(--border);background:var(--bg);color:var(--fg);font-size:15px;padding:0 10px}
+.setsep{border-top:1px solid var(--border);margin:8px 0 4px}
+
+/* корзина */
+#trash-toggle{width:100%;text-align:left;padding:0}
+.trash-zone{border-left:3px solid var(--danger);padding-left:10px;margin-bottom:12px}
+
+/* нижняя панель (мобильная) */
+#bottombar{
+  position:fixed;left:0;right:0;bottom:0;z-index:50;
+  display:flex;gap:10px;align-items:stretch;
+  padding:10px 14px calc(10px + env(safe-area-inset-bottom));
+  background:var(--card);border-top:1px solid var(--border);
+}
+.seg{display:flex;flex:1;background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:4px}
+.seg .tab-btn{flex:1;border:none;background:transparent;border-radius:10px;padding:0 6px}
+.seg .tab-btn.active{background:var(--accent);color:var(--accent-fg)}
+#btn-generate-m{
+  flex:1.1;min-height:52px;border-radius:14px;border:none;
+  background:var(--accent);color:var(--accent-fg);font-size:16.5px;font-weight:600;
+}
+
+/* шторки */
+#backdrop{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:90}
+.sheet{
+  position:fixed;left:0;right:0;bottom:0;z-index:100;margin:0 auto;max-width:720px;
+  background:var(--card);
+  /* слой поднят → тень вместо рамки; transparent border — для forced-colors */
+  border:1px solid transparent;border-bottom:none;
+  box-shadow:var(--shadow-sheet);
+  border-radius:20px 20px 0 0;padding:18px 16px calc(18px + env(safe-area-inset-bottom));
+  max-height:86svh;overflow-y:auto;
+  overscroll-behavior:contain;   /* скролл шторки не тянет страницу за ней */
+}
+.sheet h3{margin:0 0 10px;font-size:18px}
+.sheet .field{margin:8px 0}
+.sheet form{margin:0}
+.sheet-actions{display:flex;gap:10px;margin-top:10px}
+.sheet-actions .btn-big{flex:1}
+.field-label{font-size:13px;color:var(--muted);margin:6px 0 -4px}
+
+/* QR-шторка */
+#sheet-qr .qrwrap{display:flex;justify-content:center;padding:10px 0}
+#qr-canvas{image-rendering:pixelated;border-radius:12px;background:#fff;padding:8px}
+.qr-link{
+  font-family:ui-monospace,Consolas,monospace;font-size:13.5px;color:var(--muted);
+  word-break:break-all;text-align:center;margin:6px 0 0;
+}
+
+/* тост */
+#toast{
+  position:fixed;left:50%;transform:translateX(-50%);z-index:200;
+  bottom:calc(92px + env(safe-area-inset-bottom));
+  background:var(--fg);color:var(--bg);padding:10px 18px;border-radius:999px;
+  font-size:15px;font-weight:500;box-shadow:0 4px 16px rgba(0,0,0,.25);white-space:nowrap;
+}
+
+/* появление оверлеев — мягкий cross-fade (opacity разрешён всем, reduced-motion safe) */
+#backdrop,.sheet,#toast{transition:opacity .15s ease-out}
+@starting-style{
+  #backdrop:not([hidden]),.sheet:not([hidden]),#toast:not([hidden]){opacity:0}
+}
+
+/* ---------- ПК ---------- */
+@media (min-width:768px){
+  #bottombar{display:none}
+  #btn-generate{display:inline-block}
+  #desk-tabs{display:flex}
+  #results-wrap{order:2}
+  .controls{order:1}
+  #toast{bottom:28px}
+  #screen-main{padding-bottom:40px}
+  .pw{font-size:22px}
+}
+
+
+/* баннер миграции со старого формата */
+.legacy-banner{
+  display:flex;align-items:center;gap:12px;flex-wrap:wrap;
+  background:var(--card);border:1px solid var(--warn);border-radius:14px;
+  padding:12px 14px;margin:0 0 14px;font-size:14.5px;
+}
+.legacy-banner span{flex:1;min-width:200px}
+
+/* чекбокс «понимаю риск» */
+.weak-ok{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--muted);min-height:44px}
+.weak-ok input{width:20px;height:20px;accent-color:var(--accent)}
