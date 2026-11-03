@@ -24,6 +24,9 @@ jobs:
         with:
           python-version: '3.12'
 
+      - name: Unlock regression (Authorization header on a new device)
+        run: node test/unlock-header.test.mjs
+
       - name: Client tests (generator, crypto, merge, CSV, QR)
         run: node test/app.test.mjs
 

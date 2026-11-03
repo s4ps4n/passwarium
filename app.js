@@ -393,8 +393,10 @@ async function fetchMeta(id) {
 // GET сейфа. Без токена — только legacy; v3 требует Bearer.
 async function fetchRemoteBlob(tok) {
   try {
+    // токен передаётся явно: при разблокировке на новом устройстве state.authTok ещё пуст
+    const headers = tok ? { 'Authorization': 'Bearer ' + tok } : {};
     const r = await fetch('/vault/' + state.vaultId,
-      Object.assign({ cache: 'no-store' }, tok ? { headers: authHeaders() } : {}));
+      Object.assign({ cache: 'no-store' }, tok ? { headers } : {}));
     if (r.status === 404) return null;
     if (r.status === 401) return 'AUTH';
     if (r.status === 429) return 'THROTTLED';

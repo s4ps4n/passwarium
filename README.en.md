@@ -18,6 +18,18 @@ A pronounceable password generator with an encrypted vault. Zero-knowledge: the 
 
 ---
 
+## What it looks like
+
+| Vault | Generator |
+|---|---|
+| ![Vault](docs/screenshots/02-vault.png) | ![Generator](docs/screenshots/03-generator.png) |
+
+| Entry sheet | Mobile |
+|---|---|
+| ![Entry](docs/screenshots/04-entry.png) | ![Mobile](docs/screenshots/06-mobile.png) |
+
+Dark theme: ![Dark theme](docs/screenshots/05-dark.png)
+
 ## Why
 
 Mainstream password managers solve their own problem: sync through their cloud, ship a browser extension, add autofill, sell a subscription, collect telemetry. As a result they are heavy, break on non-standard sites, and ask you to trust someone else's server.
