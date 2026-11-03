@@ -5,6 +5,7 @@
 [🇷🇺 Русская версия](README.md) · [MIT License](LICENSE)
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-2dd4bf.svg)](LICENSE)
+[![tests](https://github.com/s4ps4n/passwarium/actions/workflows/tests.yml/badge.svg)](https://github.com/s4ps4n/passwarium/actions/workflows/tests.yml)
 [![Python 3](https://img.shields.io/badge/python-3.9%2B-3776ab.svg)](https://www.python.org/)
 [![No dependencies](https://img.shields.io/badge/dependencies-none-51e6b8.svg)](#how-it-works)
 [![PWA](https://img.shields.io/badge/PWA-offline--ready-8b5cf6.svg)](#phone-handoff)
